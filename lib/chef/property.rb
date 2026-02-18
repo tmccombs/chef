@@ -1,7 +1,7 @@
 #
 # Author:: John Keiser <jkeiser@chef.io>
 # Copyright:: Copyright 2015-2016, John Keiser
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -307,7 +307,7 @@ class Chef
     #
     def required?(action = nil)
       if !action.nil? && options[:required].is_a?(Array)
-        (options[:required] & Array(action)).any?
+        options[:required].intersect?(Array(action))
       else
         !!options[:required]
       end
@@ -655,8 +655,8 @@ class Chef
 
     # @api private
     def get_value(resource)
-      if instance_variable_name
-        resource.instance_variable_get(instance_variable_name)
+      if (i = instance_variable_name)
+        resource.instance_variable_get(i)
       else
         resource.send(name)
       end
@@ -664,8 +664,8 @@ class Chef
 
     # @api private
     def set_value(resource, value)
-      if instance_variable_name
-        resource.instance_variable_set(instance_variable_name, value)
+      if (i = instance_variable_name)
+        resource.instance_variable_set(i, value)
       else
         resource.send(name, value)
       end
@@ -673,8 +673,8 @@ class Chef
 
     # @api private
     def value_is_set?(resource)
-      if instance_variable_name
-        resource.instance_variable_defined?(instance_variable_name)
+      if (i = instance_variable_name)
+        resource.instance_variable_defined?(i)
       else
         true
       end

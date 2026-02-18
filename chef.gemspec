@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "chef-config", "= #{Chef::VERSION}"
   s.add_dependency "chef-utils", "= #{Chef::VERSION}"
-  s.add_dependency "train-core", "~> 3.10", "<= 3.12.7" # 3.2.28 fixes sudo prompts. See https://github.com/chef/chef/pull/9635
+  s.add_dependency "train-core", "~> 3.13", ">= 3.13.4" # Updated to be compatible with InSpec 7
   s.add_dependency "train-winrm", ">= 0.2.17"
   s.add_dependency "train-rest", ">= 0.4.1" # target mode with rest APIs
 
@@ -44,25 +44,28 @@ Gem::Specification.new do |s|
   s.add_dependency "mixlib-shellout", "~> 3.3.8"
   s.add_dependency "mixlib-archive", ">= 0.4", "< 2.0"
   s.add_dependency "ohai", "~> 19.0"
-  s.add_dependency "inspec-core", "~> 7.0.38.beta"
+  s.add_dependency "inspec-core", "~> 7.0.95"
 
-  s.add_dependency "ffi", ">= 1.15.5"
+  s.add_dependency "ffi", ">= 1.15.5", "< 1.18.0"
   s.add_dependency "ffi-yajl", "~> 2.2"
   s.add_dependency "net-sftp", ">= 2.1.2", "< 5.0" # remote_file resource
   s.add_dependency "net-ftp" # remote_file resource
+  s.add_dependency "ed25519", "~> 1.2" # ssh-ed25519 support for target mode
+  s.add_dependency "bcrypt_pbkdf", "~> 1.0" # ssh-ed25519 support for target mode
   s.add_dependency "erubis", "~> 2.7" # template resource / cookbook syntax check
-  s.add_dependency "diff-lcs", ">= 1.2.4", "!= 1.4.0", "< 1.6.0" # 1.4 breaks output. Used in lib/chef/util/diff
+  s.add_dependency "diff-lcs", "~> 1.6.0" # Used in lib/chef/util/diff
   s.add_dependency "ffi-libarchive", "~> 1.0", ">= 1.0.3" # archive_file resource
-  s.add_dependency "chef-zero", "~> 15.0.21"
+  s.add_dependency "chef-zero", "~> 15.1.0"
   s.add_dependency "chef-vault" # chef-vault resources and helpers
 
-  s.add_dependency "plist", "~> 3.2" # launchd, dscl/mac user, macos_userdefaults, osx_profile and plist resources
+  s.add_dependency "plist", "~> 3.2" # launchd, dscl/mac user, macos_userdefaults, and plist resources
   s.add_dependency "iniparse", "~> 1.4" # systemd_unit resource
   s.add_dependency "addressable"
+  s.add_dependency "syslog"
+  s.add_dependency "csv", "~> 3.3.5" # really needs to come from inspec?
   s.add_dependency "syslog-logger", "~> 1.6"
-  s.add_dependency "uuidtools", ">= 2.1.5", "< 3.0" # osx_profile resource
-  s.add_dependency "unf_ext", "~> 0.0.8.2" # older platforms
-  s.add_dependency "uri", "~> 1.0.3" # This is used by net-http. We are forcing a version to get past a CVE in 1.0.2
+  s.add_dependency "unf_ext", "~> 0.0.9.1" # older platforms
+  s.add_dependency "uri", "~> 1.0.4" # CVE-2025-61594 fixed in >= 1.0.4
   s.add_dependency "corefoundation", "~> 0.3.4" # macos_userdefaults resource
 
   s.add_dependency "proxifier2", "~> 1.1"
@@ -70,16 +73,15 @@ Gem::Specification.new do |s|
   s.add_dependency "aws-sdk-s3", "~> 1.91" # s3 recipe-url support
   s.add_dependency "aws-sdk-secretsmanager", "~> 1.46"
   s.add_dependency "vault", "~> 0.18.2" # hashi vault official client gem
-  s.add_dependency "chef-licensing", ">= 0.7.5"
+  s.add_dependency "chef-licensing", "~> 1.3"
 
   s.bindir = "bin"
   s.executables = %w{ }
 
   s.require_paths = %w{ lib }
   s.files = %w{Gemfile Rakefile LICENSE README.md} +
-    Dir.glob("{lib,spec}/**/*", File::FNM_DOTMATCH).reject { |f| File.directory?(f) } +
-    Dir.glob("*.gemspec") +
-    Dir.glob("tasks/rspec.rb")
+    Dir.glob("{lib}/**/*", File::FNM_DOTMATCH).reject { |f| File.directory?(f) } +
+    Dir.glob("*.gemspec")
 
   s.metadata = {
     "bug_tracker_uri" => "https://github.com/chef/chef/issues",

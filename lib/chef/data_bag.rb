@@ -2,7 +2,7 @@
 # Author:: Adam Jacob (<adam@chef.io>)
 # Author:: Nuo Yan (<nuo@chef.io>)
 # Author:: Christopher Brown (<cb@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,8 +32,8 @@ class Chef
     include Chef::Mixin::FromFile
     include Chef::Mixin::ParamsValidate
 
-    VALID_NAME = /^[\.\-[:alnum:]_]+$/.freeze
-    RESERVED_NAMES = /^(node|role|environment|client)$/.freeze
+    VALID_NAME = /^[\.\-[:alnum:]_]+$/
+    RESERVED_NAMES = /^(node|role|environment|client)$/
 
     def self.validate_name!(name)
       unless VALID_NAME.match?(name)

@@ -1,6 +1,6 @@
 #
 # Author:: Daniel DeLeo (<dan@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -136,7 +136,7 @@ describe Chef::CookbookVersion do
   end
 
   describe "with a cookbook directory named tatft" do
-    MD5 = /[0-9a-f]{32}/.freeze
+    MD5 = /[0-9a-f]{32}/
 
     let(:cookbook_paths_by_type) do
       {

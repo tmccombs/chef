@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 require_relative "../resource"
 require "chef-utils/dist" unless defined?(ChefUtils::Dist)
+require_relative "helpers/path_helpers"
 
 class Chef
   class Resource
@@ -68,6 +69,8 @@ class Chef
       DOC
 
       resource_name :chef_client_scheduled_task
+
+      extend Chef::ResourceHelpers::PathHelpers
 
       property :task_name, String,
         description: "The name of the scheduled task to create.",
@@ -136,7 +139,7 @@ class Chef
 
       property :chef_binary_path, String,
         description: "The path to the #{ChefUtils::Dist::Infra::CLIENT} binary.",
-        default: "C:/#{ChefUtils::Dist::Org::LEGACY_CONF_DIR}/#{ChefUtils::Dist::Infra::DIR_SUFFIX}/bin/#{ChefUtils::Dist::Infra::CLIENT}"
+        default: lazy { Chef::ResourceHelpers::PathHelpers.chef_client_hab_binary_path }
 
       property :daemon_options, Array,
         description: "An array of options to pass to the #{ChefUtils::Dist::Infra::CLIENT} command.",

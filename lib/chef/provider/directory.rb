@@ -1,6 +1,6 @@
 #
 # Author:: Adam Jacob (<adam@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -63,6 +63,17 @@ class Chef
           end
           a.failure_message(Chef::Exceptions::EnclosingDirectoryDoesNotExist, "Parent directory #{parent_directory} does not exist, cannot create #{new_resource.path}")
           a.whyrun("Assuming directory #{parent_directory} would have been created")
+        end
+
+        requirements.assert(:create) do |a|
+          a.assertion do
+            if ::TargetIO::File.exist?(new_resource.path)
+              ::TargetIO::File.directory?(new_resource.path)
+            else
+              true
+            end
+          end
+          a.failure_message(Chef::Exceptions::FileTypeMismatch, "Cannot create #{new_resource} at #{new_resource.path} because a file already exists at that path")
         end
 
         requirements.assert(:create) do |a|

@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -114,6 +114,7 @@ describe Chef::DataCollector do
     run_status.run_id = request_id
     events.run_start(Chef::VERSION, run_status)
     Chef::Config[:chef_guid] = node_uuid
+    node.default["uuid"] = node_uuid
     # we're guaranteed that those events are processed or else the data collector has no hope
     # all other events could see the chef-client crash before executing them and the data collector
     # still needs to work in those cases, so must come later, and the failure cases must be tested.
@@ -447,6 +448,13 @@ describe Chef::DataCollector do
       it "sets 'unknown_organization' if the cher_server_url does not contain one" do
         Chef::Config[:chef_server_url] = "https://spacex.rockets.local"
         expect_start_message("organization_name" => "unknown_organization")
+        events.run_started(run_status)
+      end
+
+      it "falls back to chef_guid when node['uuid'] is not set" do
+        node.default["uuid"] = nil # Ensure node["uuid"] is nil
+        Chef::Config[:chef_guid] = node_uuid
+        expect_start_message("entity_uuid" => node_uuid)
         events.run_started(run_status)
       end
 

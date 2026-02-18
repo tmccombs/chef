@@ -1,6 +1,6 @@
 #
 # Author:: John Keiser (<jkeiser@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -88,6 +88,18 @@ class Chef
             end
 
             true
+          end
+
+          # This is a lighter (than `#children.size == 0`) existence check.
+          # return earlier where we only care if 1 or more children exist
+          def any_children?
+            Dir.entries(file_path).any? { |child_name|
+              (child = make_child_entry(child_name)) &&
+                can_have_child?(child.name, child.dir?) &&
+                !(child.dir? && !child.any_children? )
+            }
+          rescue Errno::ENOENT
+            raise Chef::ChefFS::FileSystem::NotFoundError.new(self, $!)
           end
 
           def write_pretty_json

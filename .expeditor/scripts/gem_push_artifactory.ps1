@@ -1,11 +1,20 @@
 $ErrorActionPreference = "Stop"
 
+# Validate required environment variable exists
+if (-not $env:ARTIFACTORY_LITA_PASSWORD) {
+    Write-Host "CRITICAL: ARTIFACTORY_LITA_PASSWORD environment variable not found" -ForegroundColor Red
+    Write-Host "This variable should be set by the pre-command hook for pipeline: chef-chef-main-gem-validate-release" -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "Using Artifactory credentials from environment (injected by pre-command hook)"
+
 # Set environment variables
 $env:HAB_ORIGIN = "chef"
 $env:CHEF_LICENSE = "accept-no-persist"
 $env:HAB_LICENSE = "accept-no-persist"
 $env:HAB_NONINTERACTIVE = "true"
-$env:HAB_BLDR_CHANNEL = "LTS-2024"
+$env:HAB_BLDR_CHANNEL = "base-2025"
 $env:PROJECT_NAME = "chef"
 $env:ARTIFACTORY_ENDPOINT = "https://artifactory-internal.ps.chef.co/artifactory"
 $env:ARTIFACTORY_USERNAME = "buildkite"
@@ -15,25 +24,24 @@ if (-not $?) { throw "Could not ensure the minimum hab version required is insta
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 $env:Path = "C:\hab\bin;" + $env:Path # add hab bin path for binlinking so 'gem' command is found.
 
-Write-Output "--- Installing chef/ruby31-plus-devkit/3.1.6 via Habitat"
-hab pkg install chef/ruby31-plus-devkit/3.1.6 --channel LTS-2024 --binlink --force
+Write-Output "--- Installing core/ruby3_4-plus-devkit via Habitat"
+hab pkg install core/ruby3_4-plus-devkit --channel base-2025 --binlink --force
 if (-not $?) { throw "Could not install ruby with devkit via Habitat." }
 
 Write-Output "--- Building and pushing gems to Artifactory"
 try {
-    # Get password from AWS SSM Parameter Store
-    Write-Host "Retrieving artifactory password from AWS SSM..."
-    $lita_password = aws ssm get-parameter --name "artifactory-lita-password" --with-decryption --query Parameter.Value --output text --region us-west-2
-
-    if ($LASTEXITCODE -ne 0) {
-        throw "Failed to retrieve password from AWS SSM"
-    }
+    # Use password from environment (no AWS call needed)
+    $lita_password = $env:ARTIFACTORY_LITA_PASSWORD
 
     # Create base64 encoded API key
     $credentials = "lita:$lita_password"
     $bytes = [System.Text.Encoding]::UTF8.GetBytes($credentials)
     $artifactory_api_key = [System.Convert]::ToBase64String($bytes)
     $env:GEM_HOST_API_KEY = "Basic $artifactory_api_key"
+
+    # Clear sensitive variables from memory
+    $lita_password = $null
+    $credentials = $null
 
     # Generate origin key
     Write-Host "Generating origin key"
@@ -45,7 +53,7 @@ try {
 
     # Build gems via habitat
     Write-Host "Building gems via habitat"
-    hab pkg build . --refresh-channel LTS-2024
+    hab pkg build . --refresh-channel base-2025
 
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Failed to build package" -ForegroundColor Yellow

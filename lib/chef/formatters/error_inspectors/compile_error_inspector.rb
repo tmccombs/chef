@@ -1,6 +1,6 @@
 #--
 # Author:: Daniel DeLeo (<dan@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -126,7 +126,7 @@ class Chef
         end
 
         def filtered_bt
-          backtrace_lines_in_cookbooks.count > 0 ? backtrace_lines_in_cookbooks : exception.backtrace
+          backtrace_lines_in_cookbooks.any? ? backtrace_lines_in_cookbooks : exception.backtrace
         end
 
         def found_error_in_cookbooks?

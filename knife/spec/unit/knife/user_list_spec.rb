@@ -1,6 +1,6 @@
 #
 # Author:: Steven Danna
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,23 +34,53 @@ describe Chef::Knife::UserList do
     @rest = double("Chef::ServerAPI")
     allow(Chef::ServerAPI).to receive(:new).and_return(@rest)
     allow(@rest).to receive(:get).with("users").and_return(users)
+    allow(Chef::UserV1).to receive(:list).with(nil).and_return(users)
   end
 
   describe "with no arguments" do
-    it "lists all non users" do
+    it "lists all users" do
       expect(knife.ui).to receive(:output).with(%w{user1 user2})
       knife.run
     end
-
   end
 
   describe "with all_users argument" do
-    before do
-      knife.config[:all_users] = true
+    let(:user1_object) do
+      u = Chef::UserV1.new
+      u.username "user1"
+      u.email "user1@example.com"
+      u.display_name "User One"
+      u
     end
 
-    it "lists all users including hidden users" do
-      expect(knife.ui).to receive(:output).with(%w{user1 user2})
+    let(:user2_object) do
+      u = Chef::UserV1.new
+      u.username "user2"
+      u.email "user2@example.com"
+      u.display_name "User Two"
+      u
+    end
+
+    let(:inflated_users) do
+      {
+        "user1" => user1_object,
+        "user2" => user2_object,
+      }
+    end
+
+    before do
+      knife.config[:all_users] = true
+      allow(Chef::UserV1).to receive(:list).with(true).and_return(inflated_users)
+    end
+
+    it "lists all users with full details" do
+      expect(knife.ui).to receive(:output) do |arg|
+        expect(arg).to be_a(Hash)
+        expect(arg.keys).to contain_exactly("user1", "user2")
+        expect(arg["user1"]["username"]).to eq("user1")
+        expect(arg["user1"]["email"]).to eq("user1@example.com")
+        expect(arg["user2"]["username"]).to eq("user2")
+      end
       knife.run
     end
   end

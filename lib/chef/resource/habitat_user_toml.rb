@@ -1,4 +1,4 @@
-# Copyright:: Chef Software Inc.
+#  Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -73,7 +73,7 @@ class Chef
         def wmi_property_from_query(wmi_property, wmi_query)
           @wmi = ::WIN32OLE.connect("winmgmts://")
           result = @wmi.ExecQuery(wmi_query)
-          return unless result.each.count > 0
+          return unless result.each.any?
 
           result.each.next.send(wmi_property)
         end

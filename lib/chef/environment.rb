@@ -3,7 +3,7 @@
 # Author:: Seth Falcon (<seth@chef.io>)
 # Author:: John Keiser (<jkeiser@ospcode.com>)
 # Author:: Kyle Goodwin (<kgoodwin@primerevenue.com>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +35,7 @@ class Chef
     include Chef::Mixin::ParamsValidate
     include Chef::Mixin::FromFile
 
-    COMBINED_COOKBOOK_CONSTRAINT = /(.+)(?:\s+)((?:#{Chef::VersionConstraint::OPS.join("|")})(?:\s+).+)$/.freeze
+    COMBINED_COOKBOOK_CONSTRAINT = /(.+)(?:\s+)((?:#{Chef::VersionConstraint::OPS.join("|")})(?:\s+).+)$/
 
     def initialize(chef_server_rest: nil)
       @name = ""

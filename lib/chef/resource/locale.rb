@@ -1,6 +1,6 @@
 #
 # Copyright:: 2011-2016, Heavy Water Software Inc.
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ class Chef
 
       LC_VARIABLES ||= %w{LC_ADDRESS LC_COLLATE LC_CTYPE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME}.freeze
       LOCALE_CONF ||= "/etc/locale.conf".freeze
-      LOCALE_REGEX ||= /\A\S+/.freeze
+      LOCALE_REGEX ||= /\A\S+/
       LOCALE_PLATFORM_FAMILIES ||= %w{debian windows}.freeze
 
       property :lang, String,

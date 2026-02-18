@@ -2,7 +2,7 @@
 # Cookbook:: end_to_end
 # Recipe:: macos
 #
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 #
 
 chef_sleep "2"
@@ -78,11 +78,6 @@ include_recipe "git"
     path File.join(Chef::Config[:file_cache_path], archive)
     extract_to File.join(Chef::Config[:file_cache_path], archive.tr(".", "_"))
   end
-end
-
-osx_profile "Remove screensaver profile" do
-  identifier "com.company.screensaver"
-  action :remove
 end
 
 build_essential

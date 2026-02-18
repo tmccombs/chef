@@ -1,6 +1,6 @@
 #
 # Author:: Vivek Singh (<vsingh@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -75,7 +75,7 @@ class Chef
               # It's a regex.
               filter_re = Regexp.new($1, $2 ? Regexp::IGNORECASE : 0)
               config_data.each do |key, value|
-                output_data[key] = value if key.to_s&.match?(filter_re)
+                output_data[key] = value if key.to_s.match?(filter_re)
               end
             else
               # It's a dotted path string.

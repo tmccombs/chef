@@ -1,6 +1,6 @@
 #
 # Author:: Bryan McLellan <btm@loftninjas.org>
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,7 +52,7 @@ class Chef
               logger.trace("#{new_resource} checking package status and version for #{product_code}")
               get_installed_version(product_code)
             else
-              if uninstall_entries.count != 0
+              if uninstall_entries.any?
                 uninstall_entries.map(&:display_version).uniq
               end
             end

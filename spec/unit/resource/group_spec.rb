@@ -1,7 +1,7 @@
 #
 # Author:: AJ Christensen (<aj@junglistheavy.industries>)
 # Author:: Tyler Cloke (<tyler@chef.io>);
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -113,7 +113,7 @@ describe Chef::Resource::Group, "members" do
     end
 
     it "(#{method}) does not allow a Hash" do
-      expect { resource.send(method, { some_user: "is freakin awesome" }) }.to raise_error(ArgumentError)
+      expect { resource.send(method, { some_user: "is freakin awesome" }) }.to raise_error(NoMethodError)
     end
   end
 end

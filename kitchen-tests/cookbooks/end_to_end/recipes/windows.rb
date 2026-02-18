@@ -2,7 +2,7 @@
 # Cookbook:: end_to_end
 # Recipe:: windows
 #
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 #
 
 # hostnames on windows cannot contain a '.'
@@ -189,8 +189,6 @@ end
 include_recipe "::_chef_client_config"
 include_recipe "::_chef_client_trusted_certificate"
 
-include_recipe "git"
-
 # test various archive formats in the archive_file resource
 %w{tourism.tar.gz tourism.tar.xz tourism.zip}.each do |archive|
   cookbook_file File.join(Chef::Config[:file_cache_path], archive) do
@@ -225,12 +223,12 @@ directory "C:\\mordor" do
   rights :full_control, "everyone"
 end
 
-cookbook_file "c:\\mordor\\steveb.pfx" do
-  source "/certs/steveb.pfx"
+cookbook_file "c:\\mordor\\steveb-new.pfx" do
+  source "/certs/steveb-new.pfx"
   action :create_if_missing
 end
 
-windows_certificate "c:/mordor/steveb.pfx" do
+windows_certificate "c:/mordor/steveb-new.pfx" do
   pfx_password "1234"
   action :create
   user_store true
@@ -265,3 +263,10 @@ end
 
 include_recipe "::_chef_gem"
 include_recipe "::_openssl"
+
+# Exercise Habitat CA cert resource when Habitat-based Chef is present on Windows
+if ::File.exist?("C:/ProgramData/Habitat/hab.exe")
+  include_recipe "::_chef_client_hab_ca_cert"
+end
+
+include_recipe "git"

@@ -1,6 +1,6 @@
 #
 # Author:: Daniel DeLeo (<dan@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,7 @@ class Chef
   class Knife
     class CookbookSCMRepo
 
-      DIRTY_REPO = /^\s+M/.freeze
+      DIRTY_REPO = /^\s+M/
 
       include Chef::Mixin::ShellOut
 
@@ -102,7 +102,7 @@ class Chef
       def merge_updates_from(cookbook_name, version)
         branch = "chef-vendor-#{cookbook_name}"
         Dir.chdir(repo_path) do
-          if system("git merge #{branch}")
+          if system("git", "merge", branch)
             ui.info("Cookbook #{cookbook_name} version #{version} successfully installed")
           else
             ui.error("You have merge conflicts - please resolve manually")

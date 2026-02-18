@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 #
 # Author:: Seth Chisamore (<schisamo@chef.io>)
 # Author:: Mark Mzyk (<mmzyk@ospcode.com>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -523,7 +524,7 @@ BOOL WINAPI VerQueryValue(
         # preserve relative paths because symbolic links can actually
         # point to a relative path (relative to the link itself).
         def encode_path(path)
-          (path_prepender << path.gsub(::File::SEPARATOR, ::File::ALT_SEPARATOR)).to_wstring
+          (path_prepender + path.gsub(::File::SEPARATOR, ::File::ALT_SEPARATOR)).to_wstring
         end
 
         # Expands the path, prepends "\\?\" and UTF-16LE encodes it.

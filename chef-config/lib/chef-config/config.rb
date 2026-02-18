@@ -4,7 +4,7 @@
 # Author:: AJ Christensen (<aj@chef.io>)
 # Author:: Mark Mzyk (<mmzyk@chef.io>)
 # Author:: Kyle Goodwin (<kgoodwin@primerevenue.com>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -924,7 +924,11 @@ module ChefConfig
     default :profile, nil
 
     default :chef_guid_path do
-      PathHelper.join(config_dir, "#{ChefUtils::Dist::Infra::SHORT}_guid")
+      if target_mode?
+        PathHelper.join(config_dir, target_mode.host, "#{ChefUtils::Dist::Infra::SHORT}_guid")
+      else
+        PathHelper.join(config_dir, "#{ChefUtils::Dist::Infra::SHORT}_guid")
+      end
     end
 
     default :chef_guid, nil

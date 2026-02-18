@@ -2,7 +2,8 @@
 
 set -eu
 
-# Only execute in the verify pipeline
+# Only execute in the few pipelines that need it
+# if this needs to be extended to other pipelines/steps, let the build team know to take their input on it
 [[ "$BUILDKITE_PIPELINE_NAME" =~ (verify|validate/(release|adhoc|canary)|docker-build)$ ]] || exit 0
 
 docker ps || true
@@ -20,7 +21,7 @@ RUBY_VERSION=$(cat .buildkite-platform.json | jq -r '.ruby_version')
 export RUBY_VERSION
 echo "Proposed Ruby Version: $RUBY_VERSION"
 
-if [[ "$BUILDKITE_STEP_KEY" == "build-windows-2019" ]] && [[ "$BUILDKITE_ORGANIZATION_SLUG" =~ chef(-canary)?$ ]]
+if [[ "$BUILDKITE_STEP_KEY" =~ "build-windows" ]] && [[ "$BUILDKITE_ORGANIZATION_SLUG" =~ chef(-canary)?$ ]]
 then
   TOKEN=$(curl -sX PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
   ROLE=$(curl -sH "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/iam/security-credentials/)
@@ -69,6 +70,18 @@ elif [[ $BUILDKITE_ORGANIZATION_SLUG = 'chef' ]] || [[ $BUILDKITE_ORGANIZATION_S
 fi
 
 export HAB_AUTH_TOKEN=$(aws ssm get-parameter --name 'habitat-prod-auth-token' --with-decryption --query Parameter.Value --output text --region ${AWS_REGION})
+
+# Inject Artifactory password for gem release pipeline
+if [[ "$BUILDKITE_PIPELINE_SLUG" == "chef-chef-main-gem-validate-release" ]]; then
+  echo "Fetching Artifactory credentials for gem release pipeline..."
+  ARTIFACTORY_LITA_PASSWORD=$(aws ssm get-parameter --name "artifactory-lita-password" --with-decryption --query Parameter.Value --output text --region ${AWS_REGION} 2>/dev/null)
+  if [[ -z "$ARTIFACTORY_LITA_PASSWORD" ]]; then
+    echo "ERROR: Failed to retrieve Artifactory password from SSM"
+    exit 1
+  fi
+  export ARTIFACTORY_LITA_PASSWORD
+  echo "Artifactory credentials retrieved successfully"
+fi
 
 if [[ ! "$BUILDKITE_STEP_KEY" =~ ^test.* ]] && [[ $BUILDKITE_ORGANIZATION_SLUG != "chef-oss" ]]; then
   if [[ ! $BUILDKITE_LABEL =~ macOS|mac_os_x ]]; then

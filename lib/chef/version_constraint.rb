@@ -1,6 +1,6 @@
 # Author:: Seth Falcon (<seth@chef.io>)
 # Author:: Christopher Walters (<cw@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@ class Chef
     DEFAULT_CONSTRAINT = ">= 0.0.0".freeze
     STANDARD_OPS = %w{< > <= >=}.freeze
     OPS = %w{< > = <= >= ~>}.freeze
-    PATTERN = /^(#{OPS.join("|")}) *([0-9].*)$/.freeze
+    PATTERN = /^(#{OPS.join("|")}) *([0-9].*)$/
     VERSION_CLASS = Chef::Version
 
     attr_reader :op, :version

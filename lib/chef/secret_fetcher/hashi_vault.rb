@@ -1,6 +1,6 @@
 #
 # Author:: Marc Paradise (<marc@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +18,15 @@
 
 require_relative "base"
 require "aws-sdk-core" # Support for aws instance profile auth
+
+# The vault gem mutates OpenSSL::SSL::SSLContext::DEFAULT_PARAMS as it loads.
+# Ruby 3.4 can ship that hash frozen (seen on Windows builds), so duplicate it
+# before requiring vault to avoid a FrozenError during load.
+if defined?(OpenSSL::SSL::SSLContext::DEFAULT_PARAMS) && OpenSSL::SSL::SSLContext::DEFAULT_PARAMS.frozen?
+  mutable_defaults = OpenSSL::SSL::SSLContext::DEFAULT_PARAMS.dup
+  OpenSSL::SSL::SSLContext.const_set(:DEFAULT_PARAMS, mutable_defaults)
+end
+
 require "vault"
 class Chef
   class SecretFetcher

@@ -1,7 +1,7 @@
 #
 # Author:: Adam Jacob (<adam@chef.io>)
 # Author:: Daniel DeLeo (<dan@chef.io>)
-# Copyright:: Copyright, Chef Software Inc.
+# Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -97,4 +97,20 @@ task :register_eventlog do
   Dir.chdir "ext/win32-eventlog/" do
     system "rake register"
   end
+end
+
+desc "Check Linting and code style."
+task :style do
+  require "rubocop/rake_task"
+  require "cookstyle/chefstyle"
+
+  if RbConfig::CONFIG["host_os"] =~ /mswin|mingw|cygwin/
+    # Windows-specific command, rubocop erroneously reports the CRLF in each file which is removed when your PR is uploaded to GitHub.
+    # This is a workaround to ignore the CRLF from the files before running cookstyle.
+    sh "cookstyle --chefstyle -c .rubocop.yml --except Layout/EndOfLine"
+  else
+    sh "cookstyle --chefstyle -c .rubocop.yml"
+  end
+rescue LoadError
+  puts "Rubocop or Cookstyle gems are not installed. bundle install first to make sure all dependencies are installed."
 end

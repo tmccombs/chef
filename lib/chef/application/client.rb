@@ -2,7 +2,7 @@
 # Author:: AJ Christensen (<aj@chef.io)
 # Author:: Christopher Brown (<cb@chef.io>)
 # Author:: Mark Mzyk (mmzyk@chef.io)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -120,6 +120,8 @@ class Chef::Application::Client < Chef::Application::Base
     Chef::Config.chef_zero.port = config[:chef_zero_port] if config[:chef_zero_port]
 
     if config[:target] || Chef::Config.target
+      require "ed25519" # required for net-ssh to support ed25519 keys
+
       Chef::Config.target_mode.host = config[:target] || Chef::Config.target
       if URI.parse(Chef::Config.target_mode.host).scheme
         train_config = Train.unpack_target_from_uri(Chef::Config.target_mode.host)

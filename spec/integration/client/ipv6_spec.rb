@@ -1,6 +1,6 @@
 #
 # Author:: Daniel DeLeo (<dan@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -84,7 +84,7 @@ describe "chef-client" do
 
   # Some Solaris test platforms are too old for IPv6. These tests should not
   # otherwise be platform dependent, so exclude solaris
-  when_the_chef_server "is running on IPv6", :not_supported_on_solaris, :not_supported_on_gce, :not_supported_on_aix do
+  when_the_chef_server "is running on IPv6", :not_supported_on_solaris, :not_supported_on_aix do
 
     when_the_repository "has a cookbook with a no-op recipe" do
       before do

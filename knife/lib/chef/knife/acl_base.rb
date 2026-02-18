@@ -1,7 +1,7 @@
 #
 # Author:: Steven Danna (steve@chef.io)
 # Author:: Jeremiah Snapp (<jeremiah@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,7 @@ class Chef
       PERM_TYPES = %w{create read update delete grant}.freeze unless defined? PERM_TYPES
       MEMBER_TYPES = %w{client group user}.freeze unless defined? MEMBER_TYPES
       OBJECT_TYPES = %w{clients containers cookbook_artifacts cookbooks data environments groups nodes roles policies policy_groups}.freeze unless defined? OBJECT_TYPES
-      OBJECT_NAME_SPEC = /^[\-[:alnum:]_\.]+$/.freeze unless defined? OBJECT_NAME_SPEC
+      OBJECT_NAME_SPEC = /^[\-[:alnum:]_\.]+$/ unless defined? OBJECT_NAME_SPEC
 
       def validate_object_type!(type)
         unless OBJECT_TYPES.include?(type)

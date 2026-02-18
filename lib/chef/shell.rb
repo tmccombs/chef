@@ -58,9 +58,11 @@ module Shell
   # Start the irb REPL with chef-shell's customizations
   def self.start
     setup_logger
-    # FUGLY HACK: irb gives us no other choice.
-    irb_help = [:help, :irb_help, IRB::ExtendCommandBundle::NO_OVERRIDE]
-    IRB::ExtendCommandBundle.instance_variable_get(:@ALIASES).delete(irb_help)
+
+    IRB::Command.register(
+      :help,
+      proc { Shell::Options.print_help }
+    )
 
     parse_opts
     Chef::Config[:shell_config] = options.config
@@ -142,7 +144,7 @@ module Shell
       # remove this clause for any Chef version that has upgraded to ruby >= 3.3.0
       if RUBY_VERSION >= "3.3.0"
         conf.prompt_c       = "#{ChefUtils::Dist::Infra::EXEC}#{leader(m)} > "
-        conf.prompt_n       = "#{ChefUtils::Dist::Infra::EXEC}#{leader(m)} ?> "
+        # prompt_n deprecation warnings as of 3.4.x
         conf.prompt_s       = "#{ChefUtils::Dist::Infra::EXEC}#{leader(m)}%l> "
       else
         # there's a bug if you use a left arrow and the alternative prompts

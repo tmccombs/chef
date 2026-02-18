@@ -1,6 +1,6 @@
 #
 # Author:: Daniel DeLeo (<dan@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,7 @@ require "knife_spec_helper"
 require "support/shared/integration/integration_helper"
 require "chef/mixin/shell_out"
 
-describe "Knife cookbook API integration with IPv6", :workstation, :not_supported_on_gce do
+describe "Knife cookbook API integration with IPv6", :workstation do
   include IntegrationSupport
   include Chef::Mixin::ShellOut
 

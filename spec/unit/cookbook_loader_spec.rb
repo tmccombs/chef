@@ -1,6 +1,6 @@
 #
 # Author:: Adam Jacob (<adam@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -101,7 +101,7 @@ describe Chef::CookbookLoader do
         cookbook_loader.each_key do |cookbook_name|
           seen << cookbook_name
         end
-        expect(seen).to eq %w{angrybash apache2 borken ignorken irssi java name-mismatch openldap preseed starter supports-platform-constraints wget}
+        expect(seen).to eq %w{angrybash apache2 borken from_hash ignorken irssi java name-mismatch openldap preseed starter supports-platform-constraints wget}
       end
     end
 

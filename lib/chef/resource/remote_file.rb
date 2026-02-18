@@ -1,7 +1,7 @@
 #
 # Author:: Adam Jacob (<adam@chef.io>)
 # Author:: Seth Chisamore (<schisamo@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -136,7 +136,7 @@ class Chef
       def parse_source_args(args)
         if args.empty?
           nil
-        elsif args[0].is_a?(Chef::DelayedEvaluator) && args.count == 1
+        elsif args[0].is_a?(Chef::DelayedEvaluator) && args.one?
           args[0]
         elsif args.any?(Chef::DelayedEvaluator) && args.count > 1
           raise Exceptions::InvalidRemoteFileURI, "Only 1 source argument allowed when using a lazy evaluator"

@@ -1,6 +1,6 @@
 #--
 # Author:: Daniel DeLeo (<dan@chef.io)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -57,7 +57,7 @@ class Chef::Knife::Exec < Chef::Knife
     elsif !scripts.empty?
       scripts.each do |script|
         file = find_script(script)
-        context.instance_eval(IO.read(file), file, 0)
+        context.instance_eval(File.read(file), file, 0)
       end
     else
       puts "An interactive shell is opened"

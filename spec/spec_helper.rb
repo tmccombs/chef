@@ -1,6 +1,6 @@
 #
 # Author:: Adam Jacob (<adam@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -145,6 +145,7 @@ RSpec.configure do |config|
   # config.filter_run_excluding :fips_mode if windows?
 
   config.filter_run_excluding windows_only: true unless windows?
+  config.filter_run_excluding git_no_tag_head: true if git_version_ge?("2.48.0")
   config.filter_run_excluding not_supported_on_windows: true if windows?
   config.filter_run_excluding not_supported_on_windows_11: true if windows_11?
   config.filter_run_excluding not_supported_on_macos: true if macos?
@@ -153,7 +154,6 @@ RSpec.configure do |config|
   config.filter_run_excluding not_supported_on_aix: true if aix?
   config.filter_run_excluding not_supported_on_freebsd_gte_12_3: true if freebsd_gte_12_3?
   config.filter_run_excluding not_supported_on_solaris: true if solaris?
-  config.filter_run_excluding not_supported_on_gce: true if gce?
   config.filter_run_excluding win2012r2_only: true unless windows_2012r2?
   config.filter_run_excluding windows64_only: true unless windows64?
   config.filter_run_excluding windows32_only: true unless windows32?

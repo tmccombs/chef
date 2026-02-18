@@ -2,7 +2,7 @@
 # Author:: Joshua Timberman (<joshua@chef.io>)
 # Author:: Graeme Mathieson (<mathie@woss.name>)
 #
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -198,7 +198,7 @@ class Chef
           # the package provider can magically handle that
           shell_out_cmd = options[:allow_failure] ? :shell_out : :shell_out!
 
-          output = send(shell_out_cmd, homebrew_bin_path, *command, user: homebrew_uid, login: true, environment: { "HOME" => homebrew_user.dir, "RUBYOPT" => nil, "TMPDIR" => nil })
+          output = send(shell_out_cmd, homebrew_bin_path, *command, user: homebrew_uid, environment: { "HOME" => homebrew_user.dir, "RUBYOPT" => nil, "TMPDIR" => nil })
           output.stdout.chomp
         end
       end

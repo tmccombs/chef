@@ -1,6 +1,6 @@
 #
 # Author:: AJ Christensen (<aj@hjksolutions.com>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,8 +32,8 @@ class Chef
           redhatrcd?
         end
 
-        CHKCONFIG_ON = /\d:on/.freeze
-        CHKCONFIG_MISSING = /No such/.freeze
+        CHKCONFIG_ON = /\d:on/
+        CHKCONFIG_MISSING = /No such/
 
         def self.supports?(resource, action)
           service_script_exist?(:initd, resource.service_name)

@@ -1,6 +1,6 @@
 #
 # Author:: AJ Christensen (<aj@hjksolutions.com>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,8 +26,8 @@ class Chef
           debianrcd?
         end
 
-        UPDATE_RC_D_ENABLED_MATCHES = %r{/rc[\dS].d/S|not installed}i.freeze
-        UPDATE_RC_D_PRIORITIES = %r{/rc([\dS]).d/([SK])(\d\d)}i.freeze
+        UPDATE_RC_D_ENABLED_MATCHES = %r{/rc[\dS].d/S|not installed}i
+        UPDATE_RC_D_PRIORITIES = %r{/rc([\dS]).d/([SK])(\d\d)}i
         RUNLEVELS = %w{ 1 2 3 4 5 S }.freeze
 
         def self.supports?(resource, action)

@@ -1,6 +1,6 @@
 #
 # Author:: Daniel DeLeo (<dan@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,6 +29,7 @@ require_relative "resource/build_essential"
 require_relative "resource/cookbook_file"
 require_relative "resource/chef_client_config"
 require_relative "resource/chef_client_cron"
+require_relative "resource/chef_client_hab_ca_cert"
 require_relative "resource/chef_client_launchd"
 require_relative "resource/chef_client_scheduled_task"
 require_relative "resource/chef_client_systemd_timer"
@@ -108,7 +109,6 @@ require_relative "resource/plist"
 require_relative "resource/portage_package"
 require_relative "resource/powershell_package_source"
 require_relative "resource/powershell_script"
-require_relative "resource/osx_profile"
 require_relative "resource/python"
 require_relative "resource/reboot"
 require_relative "resource/registry_key"

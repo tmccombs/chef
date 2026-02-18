@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,31 @@ require "chef/mixin/powershell_out"
 
 describe Chef::Mixin::PowershellOut, :windows_only do
   include Chef::Mixin::PowershellOut
+
+  it "requires PowerShell DLLs and runtimes to be present" do
+    unless chef_powershell_gem_available?
+      raise <<~ERROR
+
+        ╔═══════════════════════════════════════════════════════════════════════════╗
+        ║                          CRITICAL TEST FAILURE                            ║
+        ╠═══════════════════════════════════════════════════════════════════════════╣
+        ║                                                                           ║
+        ║  PowerShell execution environment is NOT available!                       ║
+        ║                                                                           ║
+        ║  Required components missing:                                             ║
+        ║    - chef-powershell gem and/or                                           ║
+        ║    - Chef.PowerShell.dll and/or                                           ║
+        ║    - vcruntime140.dll (Visual C++ Runtime)                                ║
+        ║                                                                           ║
+        ║  PowershellOut mixin tests CANNOT run without these dependencies.         ║
+        ║                                                                           ║
+        ║  Please ensure all required PowerShell runtime components are installed.  ║
+        ║                                                                           ║
+        ╚═══════════════════════════════════════════════════════════════════════════╝
+
+      ERROR
+    end
+  end
 
   describe "#powershell_out" do
     it "runs a powershell command and collects stdout" do

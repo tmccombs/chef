@@ -1,5 +1,5 @@
 # Author:: Daniel DeLeo (<dan@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,7 @@ class Chef
   class Cookbook
     class Chefignore
 
-      COMMENTS_AND_WHITESPACE = /^\s*(?:#.*)?$/.freeze
+      COMMENTS_AND_WHITESPACE = /^\s*(?:#.*)?$/
 
       attr_reader :ignores
 

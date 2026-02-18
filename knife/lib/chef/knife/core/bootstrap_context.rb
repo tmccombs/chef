@@ -1,6 +1,6 @@
 #
 # Author:: Daniel DeLeo (<dan@chef.io>)
-# Copyright:: Copyright (c) Chef Software Inc.
+# Copyright:: Copyright (c) 2009-2026 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,7 +50,7 @@ class Chef
         def validation_key
           if chef_config[:validation_key] &&
               File.exist?(File.expand_path(chef_config[:validation_key]))
-            IO.read(File.expand_path(chef_config[:validation_key]))
+            File.read(File.expand_path(chef_config[:validation_key]))
           else
             false
           end
@@ -232,7 +232,7 @@ class Chef
           if chef_config[:trusted_certs_dir]
             Dir.glob(File.join(ChefConfig::PathHelper.escape_glob_dir(chef_config[:trusted_certs_dir]), "*.{crt,pem}")).each do |cert|
               content << "cat > /etc/chef/trusted_certs/#{File.basename(cert)} <<'EOP'\n" +
-                IO.read(File.expand_path(cert)) + "\nEOP\n"
+                File.read(File.expand_path(cert)) + "\nEOP\n"
             end
           end
           content
